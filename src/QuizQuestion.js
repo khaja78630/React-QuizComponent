@@ -1,16 +1,28 @@
 import React, { Component } from "react";
 import QuizQuestionButton from "./QuizQuestionButton";
 class QuizQuestion extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { incorrectAnswer: false };
+  }
+
   handleClick(buttonText) {
     this.props.quiz_question.answer === buttonText &&
       this.props.showNextQuestionHandler();
+    this.setState((prevState) => {
+      return {
+        incorrectAnswer: !prevState.incorrectAnswer,
+      };
+    });
   }
 
   render() {
     return (
       <main>
         <section>
-          <p>{this.props.quiz_question.instruction_text}</p>
+          <p className={this.state.incorrectAnswer === true && "error"}>
+            {this.props.quiz_question.instruction_text}
+          </p>
         </section>
         <section className="buttons">
           <ul>
